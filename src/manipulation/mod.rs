@@ -1,6 +1,10 @@
 use regex::Regex;
 use std::borrow::Cow;
 
+lazy_static! {
+    pub static ref PUNCT: Regex = Regex::new("[[:punct:]]").unwrap();
+}
+
 pub trait Manipulation {
     fn average_length(&self) -> f64;
     fn char_count(&self) -> usize;
@@ -28,16 +32,14 @@ impl<'s> Manipulation for Vec<Cow<'s, str>> {
     }
 
     fn remove_punct<'t>(&'t self) -> Vec<Cow<'t, str>> {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
         self.iter()
-            .map(|s| punct.replace_all(s, ""))
+            .map(|s| PUNCT.replace_all(s, ""))
             .filter(|f| !f.is_empty())
             .collect()
     }
 
     fn punct_count(&self) -> usize {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
-        self.iter().fold(0, |sum, text| sum + punct.find_iter(text).count())
+        self.iter().fold(0, |sum, text| sum + PUNCT.find_iter(text).count())
     }
 
     fn words(&self) -> Vec<&str> {
@@ -63,16 +65,14 @@ impl<'s> Manipulation for Vec<&'s str> {
     }
 
     fn remove_punct<'t>(&'t self) -> Vec<Cow<'t, str>> {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
         self.iter()
-            .map(|s| punct.replace_all(s, ""))
+            .map(|s| PUNCT.replace_all(s, ""))
             .filter(|f| !f.is_empty())
             .collect()
     }
 
     fn punct_count(&self) -> usize {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
-        self.iter().fold(0, |sum, text| sum + punct.find_iter(text).count())
+        self.iter().fold(0, |sum, text| sum + PUNCT.find_iter(text).count())
     }
 
     fn words(&self) -> Vec<&str> {
@@ -90,13 +90,11 @@ impl Manipulation for String {
     }
 
     fn remove_punct<'t>(&'t self) -> Vec<Cow<'t, str>> {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
-        vec![punct.replace_all(self, "")]
+        vec![PUNCT.replace_all(self, "")]
     }
 
     fn punct_count(&self) -> usize {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
-        punct.find_iter(self).count()
+        PUNCT.find_iter(self).count()
     }
 
     fn words_count(&self) -> usize {
@@ -126,16 +124,14 @@ impl Manipulation for Vec<String> {
     }
 
     fn remove_punct<'t>(&'t self) -> Vec<Cow<'t, str>> {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
         self.iter()
-            .map(|s| punct.replace_all(s, ""))
+            .map(|s| PUNCT.replace_all(s, ""))
             .filter(|f| !f.is_empty())
             .collect()
     }
 
     fn punct_count(&self) -> usize {
-        let punct: Regex = Regex::new("[[:punct:]]").unwrap();
-        self.iter().fold(0, |sum, text| sum + punct.find_iter(text).count())
+        self.iter().fold(0, |sum, text| sum + PUNCT.find_iter(text).count())
     }
 
     fn words(&self) -> Vec<&str> {
