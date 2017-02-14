@@ -1,0 +1,131 @@
+#![feature(test)]
+extern crate test;
+extern crate text;
+
+use text::Sort;
+use text::Repetitions;
+use text::Occurrence;
+use text::Manipulation;
+use test::Bencher;
+
+fn bench_text() -> Vec<String> {
+    let t = vec!["Lorem",
+                 "Ipsum",
+                 "is",
+                 "simply",
+                 "dummy",
+                 "text",
+                 "of",
+                 "the",
+                 "printing",
+                 "and",
+                 "typesetting industry.",
+                 "Lorem",
+                 "Ipsum",
+                 "has",
+                 "been",
+                 "the",
+                 "industry's",
+                 "standard",
+                 "dummy",
+                 "text",
+                 "ever",
+                 "since the",
+                 "1500s,",
+                 "when",
+                 "an",
+                 "unknown",
+                 "printer",
+                 "took",
+                 "a",
+                 "galley",
+                 "of",
+                 "type",
+                 "and",
+                 "scrambled",
+                 "it",
+                 "to make",
+                 "a",
+                 "type",
+                 "specimen",
+                 "book.",
+                 "It",
+                 "has",
+                 "survived",
+                 "not",
+                 "only",
+                 "five",
+                 "centuries,",
+                 "but",
+                 "also the",
+                 "leap",
+                 "into",
+                 "electronic",
+                 "typesetting,",
+                 "remaining",
+                 "essentially",
+                 "unchanged.",
+                 "It was",
+                 "popularised",
+                 "in",
+                 "the",
+                 "1960s",
+                 "with",
+                 "the",
+                 "release",
+                 "of",
+                 "Letraset",
+                 "sheets",
+                 "containing Lorem",
+                 "Ipsum",
+                 "passages,",
+                 "and",
+                 "more",
+                 "recently",
+                 "with",
+                 "desktop",
+                 "publishing",
+                 "software like",
+                 "Aldus",
+                 "PageMaker",
+                 "including",
+                 "versions",
+                 "of",
+                 "Lorem",
+                 "Ipsum."];
+    t.iter().map(|w| w.to_string()).collect()
+}
+
+#[bench]
+fn bench_sort_repetitions(b: &mut Bencher) {
+    b.iter(|| {
+        bench_text().repetitions();
+    });
+}
+
+
+#[bench]
+fn bench_map_repetitions(b: &mut Bencher) {
+    b.iter(|| {
+        bench_text().occurrence().repetitions();
+    });
+}
+
+#[bench]
+fn bench_occurrence(b: &mut Bencher) {
+    b.iter(|| {
+        bench_text().sort_by_occurrence();
+    });
+}
+
+#[bench]
+fn bench_manipulation(b: &mut Bencher) {
+    b.iter(|| {
+        bench_text().average_length();
+        bench_text().char_count();
+        bench_text().remove_punct();
+        bench_text().punct_count();
+        bench_text().words_count();
+        bench_text().words();
+    });
+}
