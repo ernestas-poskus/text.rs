@@ -138,3 +138,29 @@ impl Manipulation for Vec<String> {
         self.iter().flat_map(|s| s.split_whitespace()).collect()
     }
 }
+
+impl<'t> Manipulation for &'t str {
+    fn average_length(&self) -> f64 {
+        self.len() as f64
+    }
+
+    fn char_count(&self) -> usize {
+        self.chars().count()
+    }
+
+    fn remove_punct<'f>(&'f self) -> Vec<Cow<'f, str>> {
+        vec![PUNCT.replace_all(self, "")]
+    }
+
+    fn punct_count(&self) -> usize {
+        PUNCT.find_iter(self).count()
+    }
+
+    fn words_count(&self) -> usize {
+        self.words().len()
+    }
+
+    fn words(&self) -> Vec<&str> {
+        self.split_whitespace().collect()
+    }
+}
