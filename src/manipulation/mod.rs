@@ -98,7 +98,7 @@ impl Manipulation for String {
     }
 
     fn words_count(&self) -> usize {
-        if self.len() == 0 { 0 } else { 1 }
+        self.words().len()
     }
 
     fn words(&self) -> Vec<&str> {
