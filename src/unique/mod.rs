@@ -1,26 +1,11 @@
-use std::borrow::Cow;
+use std::collections::HashMap;
 
 pub trait Unique {
-    fn unique(&mut self) -> Vec<&str>;
+    fn unique(&self) -> Vec<&str>;
 }
 
-impl<'s> Unique for Vec<&'s str> {
-    fn unique(&mut self) -> Vec<&str> {
-        self.dedup_by(|a, b| a.to_lowercase() == b.to_lowercase());
-        self.to_vec()
-    }
-}
-
-impl Unique for Vec<String> {
-    fn unique(&mut self) -> Vec<&str> {
-        self.dedup_by(|a, b| a.to_lowercase() == b.to_lowercase());
-        self.iter().map(AsRef::as_ref).collect()
-    }
-}
-
-impl<'t> Unique for Vec<Cow<'t, str>> {
-    fn unique(&mut self) -> Vec<&str> {
-        self.dedup_by(|a, b| a.to_lowercase() == b.to_lowercase());
-        self.iter().map(AsRef::as_ref).collect()
+impl<'t> Unique for HashMap<&'t str, usize> {
+    fn unique(&self) -> Vec<&str> {
+        self.keys().map(AsRef::as_ref).collect()
     }
 }

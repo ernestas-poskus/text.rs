@@ -1,9 +1,13 @@
 extern crate text;
 use text::Unique;
+use text::Occurrence;
 
 #[test]
 fn test_unique() {
-    let mut input: Vec<String> =
-        (vec!["One", "One", "1", "1"]).iter().map(|w| w.to_string()).collect();
-    assert_eq!(input.unique(), vec!["One", "1"]);
+    let input: Vec<String> = (vec!["One", "One", "1", "1"]).iter().map(|w| w.to_string()).collect();
+
+    let occurred = input.occurrence();
+    let got = occurred.unique();
+
+    assert_eq!(got.len(), 2);
 }
