@@ -2,6 +2,13 @@
 name = "text"
 version = "0.1.0"
 authors = ["Ernestas Poskus <ernestas.poskus@gmail.com>"]
+license = "BSD-3-Clause"
+documentation = "https://github.com/ernestas-poskus/text.rs"
+homepage = "https://github.com/ernestas-poskus/text.rs"
+repository = "https://github.com/ernestas-poskus/text.rs"
+description = """
+Various text manipulation functions through traits on primitive & advanced types
+"""
 
 [dependencies]
 regex = "0.2.1"
